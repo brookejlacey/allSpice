@@ -12,9 +12,9 @@ public class RecipesService(RecipesRepository repo)
         Recipe original = GetRecipeById(recipeId);
         if (original.CreatorId != userId) throw new Exception("NOPE");
 
-        // original.Deleted = true; WHAT DOES THIS DO???
+        original.Deleted = true;
         repo.Update(original);
-        return $"archived {original.Title}";
+        return $"deleted {original.Title}";
     }
 
     internal Recipe CreateRecipe(Recipe recipeData)

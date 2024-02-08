@@ -10,6 +10,8 @@ public class Recipe
     public string Instructions { get; set; }
     public string CreatorId { get; set; }
 
+    public bool Deleted { get; set; }
+
     public Account Creator { get; set; }
 
 }

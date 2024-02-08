@@ -9,7 +9,7 @@ public class RecipesRepository(IDbConnection db)
         string sql = @"
         SELECT
             recipes.*,
-            accounts.*,
+            accounts.*
         FROM recipes
         JOIN accounts ON recipes.creatorId = accounts.id
         WHERE recipes.id = @recipeId;
@@ -29,7 +29,7 @@ public class RecipesRepository(IDbConnection db)
             recipes.*,
             accounts.*
         FROM recipes
-        JOIN recipes ON recipes.creatorId = accounts.id;
+        JOIN accounts ON recipes.creatorId = accounts.id;
         ";
         List<Recipe> recipes = db.Query<Recipe, Account, Recipe>(sql, (recipe, account) =>
         {
@@ -69,8 +69,8 @@ public class RecipesRepository(IDbConnection db)
         UPDATE recipes SET
         title = @title,
         img = @img,
-        category = @category
-        instructions = @instructions,
+        category = @category,
+        instructions = @instructions
         WHERE id = @id;
 
         SELECT

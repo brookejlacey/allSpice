@@ -26,3 +26,31 @@ VALUES
 -- ("Blueberry French Toast", "https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGZvb2R8ZW58MHx8MHx8fDA%3D", "Italian", "Do L M N",  "65a85c5a9f08f4f32d87ceef");
 
 SELECT * FROM recipes;
+
+
+-- INGREDIENTS _>
+
+CREATE TABLE ingredients(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(300) NOT NULL,
+  quantity VARCHAR(300) NOT NULL,
+  recipeId INT NOT NULL,
+  creatorId VARCHAR(255) NOT NULL,
+  FOREIGN KEY (recipeId) REFERENCES recipes(id) ON DELETE CASCADE,
+  FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
+) default charset utf8mb4 COMMENT '';
+
+INSERT INTO ingredients
+(name, quantity, recipeId, creatorId)
+VALUES
+("Cheese", "3cups", 2, "65ac39b912abc318fc85f239")
+
+SELECT 
+ingredients.*,
+ingredientCreators.*,
+recipes.*,
+recipeCreators.*
+FROM ingredients
+JOIN accounts ingredientCreators ON ingredients.creatorId = ingredientCreators.id
+JOIN recipes ON ingredients.recipeId = recipes.id
+JOIN accounts recipeCreators ON recipes.creatorID = recipeCreators.id;

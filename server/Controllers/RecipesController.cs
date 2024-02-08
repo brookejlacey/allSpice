@@ -7,6 +7,7 @@ public class RecipesController : ControllerBase
 {
 
     private readonly RecipesService recipesService;
+    private readonly IngredientsService ingredientsService;
     private readonly Auth0Provider auth;
 
     public RecipesController(Auth0Provider auth, RecipesService recipesService)
@@ -45,12 +46,12 @@ public class RecipesController : ControllerBase
     }
 
     [HttpGet("{recipeId}/ingredients")]
-    public ActionResult<List<Recipe>> GetRecipeIngredients(int recipeId)
+    public ActionResult<List<Ingredient>> GetRecipeIngredients(int recipeId)
     {
         try
         {
-            Recipe recipe = recipesService.GetRecipeIngredients(recipeId);
-            return Ok(recipe);
+            List<Ingredient> ingredients = ingredientsService.GetRecipeIngredients(recipeId);
+            return Ok(ingredients);
         }
         catch (Exception error)
         {
