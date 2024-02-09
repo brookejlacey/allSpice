@@ -13,7 +13,7 @@ public class RecipesService(RecipesRepository repo)
         if (original.CreatorId != userId) throw new Exception("NOPE");
 
         original.Deleted = true;
-        repo.Update(original);
+        repo.Delete(recipeId);
         return $"deleted {original.Title}";
     }
 
@@ -43,10 +43,10 @@ public class RecipesService(RecipesRepository repo)
 
         original.Updated = true;
 
-        original.Title ??= updateData.Title;
-        original.Img ??= updateData.Img;
-        original.Category ??= updateData.Category;
-        original.Instructions ??= updateData.CreatorId;
+        original.Title = updateData.Title ?? original.Title;
+        original.Img = updateData.Img ?? original.Title;
+        original.Category = updateData.Category ?? original.Category;
+        original.Instructions = updateData.Instructions ?? original.Instructions;
 
         Recipe update = repo.UpdateRecipe(original);
         return update;

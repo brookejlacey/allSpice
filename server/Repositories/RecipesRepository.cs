@@ -88,15 +88,20 @@ public class RecipesRepository(IDbConnection db)
         return recipe;
     }
 
-    public void Delete(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    internal Recipe UpdateRecipe(Recipe updateData)
+    public void Delete(int recipeId)
     {
         string sql = @"
-        UPDATE recipe SET
+        DELETE FROM recipes
+        WHERE id = @recipeId;
+        ";
+
+        db.Execute(sql, new { recipeId });
+    }
+
+    public Recipe UpdateRecipe(Recipe updateData)
+    {
+        string sql = @"
+        UPDATE recipes SET
         title = @title,
         img = @img,
         category = @category,
