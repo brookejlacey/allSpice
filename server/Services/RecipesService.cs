@@ -35,4 +35,18 @@ public class RecipesService(RecipesRepository repo)
         List<Recipe> recipes = repo.GetAll();
         return recipes;
     }
+
+    internal Recipe UpdateRecipe(Recipe updateData, string userId)
+    {
+        Recipe original = GetRecipeById(updateData.Id);
+        if (original.CreatorId != userId) throw new Exception("NOPE");
+
+        original.Title ??= updateData.Title;
+        original.Img ??= updateData.Img;
+        original.Category ??= updateData.Category;
+        original.Instructions ??= updateData.CreatorId;
+
+        Recipe update = repo.UpdateRecipe(original);
+        return update;
+    }
 }

@@ -7,6 +7,8 @@ public class RecipesController : ControllerBase
 {
 
     private readonly RecipesService recipesService;
+
+    //REVIEW - what is the issue here ----------⬇
     private readonly IngredientsService ingredientsService;
     private readonly Auth0Provider auth;
 
@@ -85,6 +87,22 @@ public class RecipesController : ControllerBase
             Account userInfo = await auth.GetUserInfoAsync<Account>(HttpContext);
             string message = recipesService.DeleteRecipe(recipeId, userInfo.Id);
             return Ok(message);
+        }
+        catch (Exception error)
+        {
+            return BadRequest(error.Message);
+        }
+    }
+
+    [HttpPut("{recipeId}")]
+    [Authorize]
+    public async Task<ActionResult<Recipe>> UpdateRecipe([FromBody] Recipe updateData, int recipeId)
+    {
+        try
+        {
+            updateData.Id = recipeId;
+            Recipe update = recipesService.UpdateRecipe(updateData);
+            return Ok(update);
         }
         catch (Exception error)
         {
