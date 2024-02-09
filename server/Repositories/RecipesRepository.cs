@@ -92,4 +92,19 @@ public class RecipesRepository(IDbConnection db)
     {
         throw new NotImplementedException();
     }
+
+    internal Recipe UpdateRecipe(Recipe updateData)
+    {
+        string sql = @"
+        UPDATE recipe SET
+        title = @title,
+        img = @img,
+        category = @category,
+        instructions = @instructions,
+        creatorId = @creatorid
+        WHERE id = @id
+        ";
+        Recipe recipe = db.Query<Recipe>(sql, updateData).FirstOrDefault();
+        return recipe;
+    }
 }
