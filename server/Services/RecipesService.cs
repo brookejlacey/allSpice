@@ -41,6 +41,8 @@ public class RecipesService(RecipesRepository repo)
         Recipe original = GetRecipeById(updateData.Id);
         if (original.CreatorId != userId) throw new Exception("NOPE");
 
+        original.Updated = true;
+
         original.Title ??= updateData.Title;
         original.Img ??= updateData.Img;
         original.Category ??= updateData.Category;

@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
+
 namespace allSpice.Controllers;
 
 
@@ -8,14 +10,14 @@ public class RecipesController : ControllerBase
 
     private readonly RecipesService recipesService;
 
-    //REVIEW - what is the issue here ----------⬇
     private readonly IngredientsService ingredientsService;
     private readonly Auth0Provider auth;
 
-    public RecipesController(Auth0Provider auth, RecipesService recipesService)
+    public RecipesController(Auth0Provider auth, RecipesService recipesService, IngredientsService ingredientsService)
     {
         this.auth = auth;
         this.recipesService = recipesService;
+        this.ingredientsService = ingredientsService;
     }
 
 
@@ -100,8 +102,9 @@ public class RecipesController : ControllerBase
     {
         try
         {
+            Account userInfo = await auth.GetUserInfoAsync<Account>(HttpContext);
             updateData.Id = recipeId;
-            Recipe update = recipesService.UpdateRecipe(updateData);
+            Recipe update = recipesService.UpdateRecipe(updateData, userInfo.Id);
             return Ok(update);
         }
         catch (Exception error)

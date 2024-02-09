@@ -12,6 +12,8 @@ public class Recipe
 
     public bool Deleted { get; set; }
 
+    public bool Updated { get; set; }
+
     public Account Creator { get; set; }
 
 }
