@@ -82,7 +82,7 @@ public class IngredientsRepository(IDbConnection db) : IRepository<Ingredient>
     {
       ingredient.Creator = account;
       return ingredient;
-    }, new { recipeId }).ToList();
+    }, new { recipeId }).ToList(); //NEW is because of the int recipeId also BLUE=NEW GREEN=lightblue
     return ingredients;
   }
 }
