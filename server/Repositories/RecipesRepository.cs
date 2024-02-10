@@ -63,7 +63,18 @@ public class RecipesRepository(IDbConnection db)
         return recipe;
     }
 
-    public Recipe Update(Recipe updateData)
+
+    public void Delete(int recipeId)
+    {
+        string sql = @"
+        DELETE FROM recipes
+        WHERE id = @recipeId;
+        ";
+
+        db.Execute(sql, new { recipeId });
+    }
+
+    public Recipe UpdateRecipe(Recipe updateData)
     {
         string sql = @"
         UPDATE recipes SET
@@ -85,31 +96,6 @@ public class RecipesRepository(IDbConnection db)
             recipe.Creator = account;
             return recipe;
         }, updateData).FirstOrDefault();
-        return recipe;
-    }
-
-    public void Delete(int recipeId)
-    {
-        string sql = @"
-        DELETE FROM recipes
-        WHERE id = @recipeId;
-        ";
-
-        db.Execute(sql, new { recipeId });
-    }
-
-    public Recipe UpdateRecipe(Recipe updateData)
-    {
-        string sql = @"
-        UPDATE recipes SET
-        title = @title,
-        img = @img,
-        category = @category,
-        instructions = @instructions,
-        creatorId = @creatorid
-        WHERE id = @id
-        ";
-        Recipe recipe = db.Query<Recipe>(sql, updateData).FirstOrDefault();
         return recipe;
     }
 }
