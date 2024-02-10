@@ -6,7 +6,7 @@ public class Favorite //: RepoItem<int> do I need this?
     public string AccountId { get; set; }
     public int RecipeId { get; set; }
 
-    public string CreatorId { get; set; }
-    public Account Creator { get; set; }
+    // public string CreatorId { get; set; }
+    // public Account Creator { get; set; }  -----> not needed because of the view model I think?
 
 }

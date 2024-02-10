@@ -16,9 +16,18 @@ public class FavoritesController : ControllerBase
 
     [HttpPost]
     [Authorize]
-
-    public async Task<ActionResult<Favorite>> CreateFavorite([FromBody] Favorite favoriteData)
+    public async Task<ActionResult<FavoriteAccount>> CreateFavorite([FromBody] Favorite favoriteData)
     {
-
+        try
+        {
+            Account userInfo = await auth.GetUserInfoAsync<Account>(HttpContext);
+            favoriteData.AccountId = userInfo.Id;
+            FavoriteAccount collabAccount = favoritesService.CreateFavorite(favoriteData);
+            return Ok(collabAccount);
+        }
+        catch (Exception error)
+        {
+            return BadRequest(error.Message);
+        }
     }
 }

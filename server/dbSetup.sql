@@ -54,3 +54,45 @@ FROM ingredients
 JOIN accounts ingredientCreators ON ingredients.creatorId = ingredientCreators.id
 JOIN recipes ON ingredients.recipeId = recipes.id
 JOIN accounts recipeCreators ON recipes.creatorID = recipeCreators.id;
+
+
+
+CREATE TABLE favorites(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  accountId VARCHAR(255) NOT NULL,
+  recipeId INT NOT NULL,
+  FOREIGN KEY (accountId) REFERENCES accounts(id) ON DELETE CASCADE,
+  FOREIGN KEY (recipeId) REFERENCES recipes(id) ON DELETE CASCADE
+) default charset utf8mb4 COMMENT '';
+
+INSERT INTO favorites
+(accountId, recipeId)
+VALUES
+("65a85c5a9f08f4f32d87ceef", 2);
+
+SELECT
+*
+FROM favorites;
+
+SELECT 
+  favorites.*,
+  recipes.*,
+  accounts.*
+FROM favorites
+JOIN recipes ON favorites.recipeId = recipes.id
+JOIN accounts ON recipes.creatorId = accounts.id
+WHERE favorites.accountId = "65a85c5a9f08f4f32d87ceef";
+
+SELECT
+  accounts.*,
+  favorites.id
+FROM favorites
+JOIN accounts ON favorites.accountId = accounts.id
+WHERE favorites.id = LAST_INSERT_ID();
+
+SELECT
+  recipes.*,
+  favorites.id
+FROM favorites
+JOIN recipes ON favorites.recipeId = recipes.id
+WHERE favorites.id = LAST_INSERT_ID();
