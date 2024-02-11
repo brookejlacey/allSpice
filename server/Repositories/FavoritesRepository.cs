@@ -31,4 +31,45 @@ public class FavoritesRepository(IDbConnection db)
     }, favoriteData).FirstOrDefault();
     return favoriteAccount;
   }
+
+  public void Delete(int favoriteId)
+  {
+    string sql = @"
+      DELETE FROM favorites WHERE id = @favoriteId
+      ";
+    db.Execute(sql, new { favoriteId });
+  }
+
+
+  public Favorite GetById(int favoriteId)
+  {
+    string sql = @"
+      SELECT
+        *
+      FROM favorites 
+      WHERE id = @favoriteId;
+      ";
+    Favorite favorite = db.Query<Favorite>(sql, new { favoriteId }).FirstOrDefault();
+    return favorite;
+  }
+
+  internal List<FavoriteRecipe> GetAccountFavorites(string userId)
+  {
+    string sql = @"
+      SELECT
+        favorites.*,
+        recipes.*
+      FROM favorites
+      JOIN recipes ON favorites.recipeId = recipes.id
+      WHERE favorites.accountId = @userId;
+      ";
+    List<FavoriteRecipe> faveRecipes = db.Query<Favorite, FavoriteRecipe, FavoriteRecipe>(sql, (favorite, faveRecipe) =>
+    {
+      faveRecipe.FavoriteId = favorite.Id;
+      return faveRecipe;
+    }, new { userId }).ToList();
+    return faveRecipes;
+  }
+
+
 }

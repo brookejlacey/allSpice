@@ -11,13 +11,15 @@ public class RecipesController : ControllerBase
     private readonly RecipesService recipesService;
 
     private readonly IngredientsService ingredientsService;
+    private readonly FavoritesService favoritesService;
     private readonly Auth0Provider auth;
 
-    public RecipesController(Auth0Provider auth, RecipesService recipesService, IngredientsService ingredientsService)
+    public RecipesController(Auth0Provider auth, RecipesService recipesService, IngredientsService ingredientsService, FavoritesService favoritesService)
     {
         this.auth = auth;
         this.recipesService = recipesService;
         this.ingredientsService = ingredientsService;
+        this.favoritesService = favoritesService;
     }
 
 
@@ -49,19 +51,6 @@ public class RecipesController : ControllerBase
         }
     }
 
-    [HttpGet("{recipeId}/ingredients")]
-    public ActionResult<List<Ingredient>> GetRecipeIngredients(int recipeId)
-    {
-        try
-        {
-            List<Ingredient> ingredients = ingredientsService.GetRecipeIngredients(recipeId);
-            return Ok(ingredients);
-        }
-        catch (Exception error)
-        {
-            return BadRequest(error.Message);
-        }
-    }
 
     [HttpPost]
     [Authorize]
@@ -113,4 +102,31 @@ public class RecipesController : ControllerBase
         }
     }
 
+
+    [HttpGet("{recipeId}/ingredients")]
+    public ActionResult<List<Ingredient>> GetRecipeIngredients(int recipeId)
+    {
+        try
+        {
+            List<Ingredient> ingredients = ingredientsService.GetRecipeIngredients(recipeId);
+            return Ok(ingredients);
+        }
+        catch (Exception error)
+        {
+            return BadRequest(error.Message);
+        }
+    }
+    [HttpGet("{recipeId}/favorites")]
+    public ActionResult<List<Favorite>> GetRecipeFavorites(int recipeId)
+    {
+        try
+        {
+            List<Favorite> favorites = favoritesService.GetRecipeFavorites(recipeId);
+            return Ok(favorites);
+        }
+        catch (Exception error)
+        {
+            return BadRequest(error.Message);
+        }
+    }
 }
