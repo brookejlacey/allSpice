@@ -116,17 +116,19 @@ public class RecipesController : ControllerBase
             return BadRequest(error.Message);
         }
     }
-    [HttpGet("{recipeId}/favorites")]
-    public ActionResult<List<Favorite>> GetRecipeFavorites(int recipeId)
-    {
-        try
-        {
-            List<Favorite> favorites = favoritesService.GetRecipeFavorites(recipeId);
-            return Ok(favorites);
-        }
-        catch (Exception error)
-        {
-            return BadRequest(error.Message);
-        }
-    }
+
+    // NOTE this is for recipe favorites but I need just account favorite recipes
+    // [HttpGet("{recipeId}/favorites")]
+    // public ActionResult<List<Favorite>> GetRecipeFavorites(int recipeId)
+    // {
+    //     try
+    //     {
+    //         List<Favorite> favorites = favoritesService.GetRecipeFavorites(recipeId);
+    //         return Ok(favorites);
+    //     }
+    //     catch (Exception error)
+    //     {
+    //         return BadRequest(error.Message);
+    //     }
+    // }
 }

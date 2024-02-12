@@ -53,23 +53,46 @@ public class FavoritesRepository(IDbConnection db)
     return favorite;
   }
 
-  internal List<FavoriteRecipe> GetAccountFavorites(string userId)
+  internal List<Recipe> GetAccountFavorites(string userId)
   {
     string sql = @"
-      SELECT
-        favorites.*,
-        recipes.*
-      FROM favorites
-      JOIN recipes ON favorites.recipeId = recipes.id
-      WHERE favorites.accountId = @userId;
-      ";
-    List<FavoriteRecipe> faveRecipes = db.Query<Favorite, FavoriteRecipe, FavoriteRecipe>(sql, (favorite, faveRecipe) =>
-    {
-      faveRecipe.FavoriteId = favorite.Id;
-      return faveRecipe;
-    }, new { userId }).ToList();
-    return faveRecipes;
+        SELECT 
+        recipes.* 
+        FROM favorites 
+        JOIN recipes ON favorites.recipeId = recipes.id
+        WHERE favorites.accountId = @userId;
+        ";
+
+    return db.Query<Recipe>(sql, new { userId }).ToList();
+
+
   }
+
+  // List<Recipe> Recipes = db.Query<Favorite, Recipe, Recipe>(sql, (favorite, Recipe) =>
+  // {
+  //   Recipe.d = favorite.Id;
+  //   return Recipe;
+  // }, new { userId }).ToList();
+  // return Recipes;
+
+
+
+  // internal List<Recipe> GetAccountFavorites(string userId)
+  // {
+  //   string sql = @"
+  //     SELECT
+  //       recipes.*
+  //     FROM favorites
+  //     JOIN recipes ON favorites.recipeId = recipes.id
+  //     WHERE favorites.accountId = @userId;
+  //     ";
+  //   List<Recipe> faveRecipes = db.Query<Favorite, Recipe, Recipe>(sql, (favorite, faveRecipe) =>
+  //   {
+  //     faveRecipe.FavoriteId = favorite.Id;
+  //     return faveRecipe;
+  //   }, new { userId }).ToList();
+  //   return faveRecipes;
+  // }
 
 
 }
