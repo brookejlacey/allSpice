@@ -4,7 +4,14 @@
       style="background-image: url('https://images.unsplash.com/photo-1556909211-36987daf7b4d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cmVjaXBlc3xlbnwwfHwwfHx8MA%3D%3D');">
     </div>
 
-    <RecipeCard />
+    <!-- <RecipeCard /> -->
+    <div class="container-fluid">
+      <div class="row">
+        {{ recipes }}
+
+      </div>
+
+    </div>
 
 
   </div>
@@ -24,7 +31,7 @@ export default {
     onMounted(() => {
       getAllRecipes();
     })
-    const filterby = ref('')
+    // const filterby = ref('')
     async function getAllRecipes() {
       try {
         await recipesService.getAllRecipes()
@@ -34,17 +41,22 @@ export default {
       }
     }
     return {
-      filterby,
       recipes: computed(() => {
-        if (filterby.value) {
-          return AppState.recipes.filter(e => e.type == filterby.value)
-        } else {
-          return AppState.recipes
-        }
+        AppState.recipes
       })
-    };
+    }
+
+    //   filterby,
+    //   recipes: computed(() => {
+    //     if (filterby.value) {
+    //       return AppState.recipes.filter(e => e.type == filterby.value)
+    //     } else {
+    //       return AppState.recipes
+    //     }
+    //   })
+    // };
   },
-  components: { RecipeCard }
+  // components: { RecipeCard }
 }
 </script>
 
