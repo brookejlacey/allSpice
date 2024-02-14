@@ -1,13 +1,13 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-md-4" v-for="recipe in recipes" :key="recipe.id">
-                <div class="card" selectable>
-                    <img class="card-img-top" :src="recipe.imageUrl" alt="Recipe image">
+            <div class="col-md-4">
+                <div class="card">
+                    <img v-if="recipe" class="card-img-top" :src="recipe.img" alt="Recipe image">
+
                     <div class="card-body">
                         <h5 class="card-title">{{ recipe.title }}</h5>
                         <p class="card-text">{{ recipe.category }}</p>
-
                     </div>
                 </div>
             </div>
@@ -15,21 +15,20 @@
     </div>
 </template>
 
-
 <script>
-import { AppState } from '../AppState';
-import { computed, ref, onMounted } from 'vue';
-import { Recipe } from '../models/Recipe';
+import { Recipe } from '../models/Recipe.js';
 
 export default {
-    props: { recipe: { type: Recipe, required: true } },
-    setup() {
-        return {}
-    }
+    props: {
+        recipe: {
+            type: Recipe,
+            required: true,
+            default: () => ({ img: '', title: '', category: '' })
+        }
+    },
+
 };
-
 </script>
-
 
 <style lang="scss" scoped>
 .card {
@@ -45,3 +44,7 @@ export default {
     }
 }
 </style>
+
+
+
+
