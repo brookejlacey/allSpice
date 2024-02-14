@@ -6,4 +6,6 @@ export class Account {
     this.picture = data.picture
     // TODO add additional properties if needed
   }
+
+
 }

@@ -4,36 +4,47 @@
       style="background-image: url('https://images.unsplash.com/photo-1556909211-36987daf7b4d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cmVjaXBlc3xlbnwwfHwwfHx8MA%3D%3D');">
     </div>
 
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4" v-for="recipe in recipes" :key="recipe.id">
-          <div class="card">
-            <img class="card-img-top" :src="recipe.imageUrl" alt="Recipe image">
-            <div class="card-body">
-              <h5 class="card-title">{{ recipe.title }}</h5>
-              <p class="card-text">{{ recipe.description }}</p>
-              <a href="#" class="btn btn-primary">View Recipe</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <RecipeCard />
+
+
   </div>
 </template>
 
 <script>
+
+import { computed, onMounted, popScopeId, ref } from 'vue';
+import { AppState } from '../AppState';
+import { recipesService } from '../services/RecipesService.js';
+import RecipeCard from '../components/RecipeCard.vue';
+import Pop from '../utils/Pop';
+
+
 export default {
   setup() {
-    const recipes = [
-      { id: 1, title: 'Recipe 1', description: 'This is a description for Recipe 1', imageUrl: 'link_to_image_1.jpg' },
-      { id: 2, title: 'Recipe 2', description: 'This is a description for Recipe 2', imageUrl: 'link_to_image_2.jpg' },
-      { id: 3, title: 'Recipe 3', description: 'This is a description for Recipe 3', imageUrl: 'link_to_image_3.jpg' }
-    ];
+    onMounted(() => {
+      getAllRecipes();
+    })
+    const filterby = ref('')
+    async function getAllRecipes() {
+      try {
+        await recipesService.getAllRecipes()
+      } catch (error) {
+        Pop.error(error)
 
-    return {
-      recipes
+      }
     }
-  }
+    return {
+      filterby,
+      recipes: computed(() => {
+        if (filterby.value) {
+          return AppState.recipes.filter(e => e.type == filterby.value)
+        } else {
+          return AppState.recipes
+        }
+      })
+    };
+  },
+  components: { RecipeCard }
 }
 </script>
 
