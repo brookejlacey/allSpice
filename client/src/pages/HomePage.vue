@@ -6,7 +6,8 @@
   </div>
 
   <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create-recipe-modal">New Recipe<i
-      class="mdi mdi-plus-circle"></i></button>
+      class="mdi mdi-plus-circle"></i>
+  </button>
   <!-- <NewRecipeForm /> -->
 
   <section class="row">
@@ -14,12 +15,6 @@
       <RecipeCard :recipe="recipe" />
     </div>
   </section>
-
-
-
-  <!-- <div class="row">
-    <p> {{ recipes }}</p>
-  </div> -->
 </template>
 
 <script>

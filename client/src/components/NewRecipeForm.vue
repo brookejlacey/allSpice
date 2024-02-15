@@ -9,8 +9,8 @@
                 <div class="modal-body container-fluid">
                     <h4 class="text-primary p-2">New Recipe</h4>
 
-                    <form class="row" @submit.prevent="createRecipe()">
-
+                    <form class="row">
+                        @submit.prevent="createRecipe()
                         <div class="mb-3 col-6">
                             <label for="recipe-title">Title</label>
                             <input v-model="recipeData.title" class="form-control" type="text" name="recipe-title"
@@ -68,7 +68,7 @@ export default {
             instructions: '',
             category: '',
         });
-        const router = useRouter()
+        // const router = useRouter()
         return {
             recipeData,
             categoryOptions: ['Cheese', 'Italian', 'Soup', 'Mexican', 'Specialty Coffee'],
@@ -78,10 +78,8 @@ export default {
                 try {
                     const recipe = await recipesService.createRecipe(recipeData.value);
                     Pop.success('recipe created');
-                    // Correctly reset recipeData.value to a new object
                     recipeData.value = { title: '', img: '', instructions: '', category: '' };
                     Modal.getOrCreateInstance(document.getElementById('create-recipe-modal')).hide();
-                    router.push({ name: 'Recipe Details', params: { recipeId: recipe.id } });
                 } catch (error) {
                     Pop.error(error);
                 }
@@ -104,6 +102,7 @@ export default {
 //         }
 //     }
 // }
+
 </script>
   
   
